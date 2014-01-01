@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_with	tests		# build without tests
+%bcond_without	tests		# build without tests
 
 %define	pkgname	hashr
 Summary:	Simple Hash extension to make working with nested hashes
@@ -14,6 +14,7 @@ Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
 URL:		http://github.com/svenfuchs/hashr
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.656
+BuildRequires:	sed >= 4.0
 %if %{with tests}
 BuildRequires:	ruby-rake
 BuildRequires:	ruby-test_declarative >= 0.0.2
@@ -28,8 +29,14 @@ configuration) easier and less error-prone.
 %prep
 %setup -q -n %{pkgname}-%{version}
 
+sed -i '/require.*bundler/d' test/test_helper.rb
+
 %build
 %__gem_helper spec
+
+%if %{with tests}
+testrb -Ilib test/*_test.rb
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
