@@ -6,7 +6,7 @@
 Summary:	Simple Hash extension to make working with nested hashes
 Name:		ruby-%{pkgname}
 Version:	0.0.22
-Release:	1
+Release:	2
 License:	GPL v2+ or Ruby
 Group:		Development/Languages
 Source0:	http://rubygems.org/downloads/%{pkgname}-%{version}.gem
